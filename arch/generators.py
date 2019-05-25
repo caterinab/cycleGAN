@@ -81,8 +81,8 @@ class ResnetGenerator(nn.Module):
             res_model += [ResidualBlock(ngf * 4, norm_layer, use_dropout, use_bias)]
 
         res_model += [dconv_norm_relu(ngf * 4, ngf * 2, 3, 2, 1, 1, norm_layer=norm_layer, bias=use_bias),
-                      dconv_norm_relu(ngf * 2, ngf * 1, 3, 2, 1, 1, norm_layer=norm_layer, bias=use_bias),
-                      nn.ReflectionPad2d(3),
+                      dconv_norm_relu(ngf * 2, ngf * 1, 4, 2, 1, 1, norm_layer=norm_layer, bias=use_bias),
+                      nn.ReflectionPad2d(3,2,3,2),
                       nn.Conv2d(ngf, output_nc, 7),
                       nn.Tanh()]
         self.res_model = nn.Sequential(*res_model)
