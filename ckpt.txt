@@ -1,0 +1,3 @@
+c1 --> original
+c2 --> kernel size multiple of stride in deconvolution
+c3 --> upsampling substitutes deconvolution
