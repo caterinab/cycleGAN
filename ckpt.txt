@@ -3,3 +3,4 @@ c2 --> kernel size multiple of stride in deconvolution / 16 filters
 c3 --> upsampling substitutes deconvolution / 16 filters
 c4 --> kernel size multiple of stride in deconvolution / 64 filters
 c5 --> original / 64 filters
+c6 --> upsampling substitutes deconvolution / 16 filters
