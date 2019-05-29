@@ -8,6 +8,7 @@ import test as tst
 # To get arguments from commandline
 def get_args():
     parser = ArgumentParser(description='cycleGAN PyTorch')
+    parser.add_argument('--LRattn', type=float, default=1e-5, help='learning rate fir attention module')
     parser.add_argument('--epochs', type=int, default=200)
     parser.add_argument('--decay_epoch', type=int, default=100)
     parser.add_argument('--batch_size', type=int, default=1)
