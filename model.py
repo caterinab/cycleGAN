@@ -120,7 +120,7 @@ class cycleGAN(object):
                 b_real = Variable(b_real[0])
                 a_real, b_real = utils.cuda([a_real, b_real])
 				
-				# NB: Gab and Gba may have inverted names (Gab genrates a from b, not the other way around) 
+				# NB: Gab and Gba may have inverted names (Gab generates a from b, not the other way around) 
 				
                 # A
                 attnMapA = toZeroThreshold(self.AttnA(a_real))        # compute attention on real A
@@ -167,8 +167,8 @@ class cycleGAN(object):
                 
                 # Adversarial losses
                 ###################################################
-                a_fake_dis = self.Da(fakeA)
-                a_fake_dis_ = self.Da(A_)
+                a_fake_dis = self.Da(fakeA)	# generated A
+                a_fake_dis_ = self.Da(A_)	# reconstructed A
                 b_fake_dis = self.Db(fakeB)
                 b_fake_dis_ = self.Db(B_)
 
@@ -224,7 +224,7 @@ class cycleGAN(object):
 
                 # Total discriminators losses
                 a_dis_loss = a_dis_fake_loss + a_dis_fake_loss_ + 2*a_dis_real_loss
-                b_dis_loss = b_dis_fake_loss_ + b_dis_fake_loss_ + 2*b_dis_real_loss
+                b_dis_loss = b_dis_fake_loss + b_dis_fake_loss_ + 2*b_dis_real_loss
                 #a_dis_loss = (a_dis_real_loss + a_dis_fake_loss)*0.5
                 #b_dis_loss = (b_dis_real_loss + b_dis_fake_loss)*0.5
                 
