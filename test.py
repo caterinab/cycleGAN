@@ -88,8 +88,12 @@ def test(args):
         b_recon_test = (attnMapfakeA * genB_) + bgfakeA
 
     pic = (torch.cat([a_real_test, b_fake_test, a_recon_test, b_real_test, a_fake_test, b_recon_test], dim=0).data + 1) / 2.0
+        
+    ones = Tensor(a_real_test.shape).fill_(1.0)
+    pic2 = (torch.cat([attnMapA*ones, 1 - attnMapA*ones, fgA, bgA, attnMapB*ones, 1 - attnMapB*ones, fgB, bgB], dim=0).data + 1) / 2.0
 
     if not os.path.isdir(args.results_dir):
         os.makedirs(args.results_dir)
 
     torchvision.utils.save_image(pic, args.results_dir+'/sample.jpg', nrow=3)
+    torchvision.utils.save_image(pic2, args.results_dir+'/attn_maps.jpg', nrow=2)

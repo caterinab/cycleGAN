@@ -184,11 +184,11 @@ class cycleGAN(object):
 
                 # Total generators losses
                 ###################################################
-                gen_loss = a_gen_loss + b_gen_loss + a_cycle_loss + b_cycle_loss #+ a_idt_loss + b_idt_loss
+                total_gen_loss = a_gen_loss + b_gen_loss + a_cycle_loss + b_cycle_loss #+ a_idt_loss + b_idt_loss
 
                 # Update generators
                 ###################################################
-                gen_loss.backward(retain_graph=True)
+                total_gen_loss.backward(retain_graph=True)
                 self.g_optimizer.step()
                 self.optAttn.step()
 
@@ -230,13 +230,15 @@ class cycleGAN(object):
                 
                 # Update discriminators
                 ##################################################
-                a_dis_loss.backward()
-                b_dis_loss.backward()
+                #a_dis_loss.backward()
+                #b_dis_loss.backward()
+                total_dis_loss = a_dis_loss + b_dis_loss
+                total_dis_loss.backward()
                 self.d_optimizer.step()
 
                 print("Epoch: (%3d) (%5d/%5d) | Gen Loss:%.2e | Dis Loss:%.2e" % 
                                             (epoch, i + 1, min(len(a_loader), len(b_loader)),
-                                                            gen_loss,a_dis_loss+b_dis_loss))
+                                                            total_gen_loss,total_dis_loss))
 
             # Override the latest checkpoint
             #######################################################
