@@ -57,6 +57,9 @@ class cycleGAN(object):
         self.g_optimizer = torch.optim.Adam(itertools.chain(self.Gab.parameters(),self.Gba.parameters()), lr=args.lr, betas=(0.5, 0.999))
         self.d_optimizer = torch.optim.Adam(itertools.chain(self.Da.parameters(),self.Db.parameters()), lr=args.lr, betas=(0.5, 0.999))
 
+        # Optimizers - attn
+        self.optAttn = torch.optim.Adam(itertools.chain(self.AttnA.parameters(), self.AttnB.parameters()),lr=args.LRattn)
+
         try:
             ckpt = utils.load_checkpoint('%s/latest.ckpt' % (args.checkpoint_dir))
             self.start_epoch = ckpt['epoch']
@@ -69,12 +72,9 @@ class cycleGAN(object):
             self.AttnA.load_state_dict(ckpt['AttnA'])
             self.AttnB.load_state_dict(ckpt['AttnB'])
             self.optAttn.load_state_dict(ckpt['optAttn'])
-        except:
-            print(' [*] No checkpoint!')
+        except Exception as e:
+            print(' [*] Checkpoint exception: ' + str(e))
             self.start_epoch = 0
-
-        # Optimizers - attn
-        self.optAttn = torch.optim.Adam(itertools.chain(self.AttnA.parameters(), self.AttnB.parameters()),lr=args.LRattn)
 
         self.g_lr_scheduler = torch.optim.lr_scheduler.LambdaLR(self.g_optimizer, lr_lambda=utils.LambdaLR(args.epochs, 0, args.decay_epoch).step)
         self.d_lr_scheduler = torch.optim.lr_scheduler.LambdaLR(self.d_optimizer, lr_lambda=utils.LambdaLR(args.epochs, 0, args.decay_epoch).step)

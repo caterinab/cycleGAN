@@ -41,14 +41,14 @@ def test(args):
     AttnB = define_Attn()
     utils.print_networks([Gab,Gba], ['Gab','Gba'])
 
-    #try:
-    ckpt = utils.load_checkpoint('%s/latest.ckpt' % (args.checkpoint_dir))
-    Gab.load_state_dict(ckpt['Gab'])
-    Gba.load_state_dict(ckpt['Gba'])
-    AttnA.load_state_dict(ckpt['AttnA'])
-    AttnB.load_state_dict(ckpt['AttnB'])
-    #except:
-    #    print(' [*] No checkpoint!')
+    try:
+        ckpt = utils.load_checkpoint('%s/latest.ckpt' % (args.checkpoint_dir))
+        Gab.load_state_dict(ckpt['Gab'])
+        Gba.load_state_dict(ckpt['Gba'])
+        AttnA.load_state_dict(ckpt['AttnA'])
+        AttnB.load_state_dict(ckpt['AttnB'])
+    except Exception as e:
+        print(' [*] Checkpoint exception: ' + str(e))
 
 
     """ run """
